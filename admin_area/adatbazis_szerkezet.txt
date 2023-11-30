@@ -1,0 +1,22 @@
+                                     products
+
+
+product_ID	product_name	description	stock	color_ID	type_ID	material_ID	image
+
+
+                                    colors
+
+                            color_ID color_Name
+
+
+                                    materials
+
+
+                            material_ID	material_Name	
+
+
+                                    types
+
+
+                               type_ID type_Name
+
