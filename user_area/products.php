@@ -434,7 +434,7 @@
                 <div class="productdisplay row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                     <!-- Az 'ez egy termék' divet megjelenítjük többször, hogy látszódjon, hogyan helyezkednek el -->
                     <div class="col">
-                        <div class="productbox">+++
+                        <div class="productbox">
                             <div class="disp_productimg">
                                 <img src="../img/karkoto.png" alt="" style="max-width: 100%;">
                             </div>
