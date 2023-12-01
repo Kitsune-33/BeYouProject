@@ -5,32 +5,39 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 if (isset($_POST['insert_product'])) {
-    try {
-        $product_name = $con->real_escape_string($_POST['product_name']);
-        $product_price = $con->real_escape_string($_POST['product_price']);
-        $product_desc = $con->real_escape_string($_POST['product_desc']);
-        $product_stock = $con->real_escape_string($_POST['product_stock']);
-        $product_color = $con->real_escape_string($_POST['product_color']);
-        $product_type = $con->real_escape_string($_POST['product_type']);
-        $product_material = $con->real_escape_string($_POST['product_material']);
-        $product_image = $_FILES['product_image']['name'];
-        $temp_image = $_FILES['product_image']['tmp_name'];
+    $product_name = $con->real_escape_string($_POST['product_name']);
+    $product_price = $con->real_escape_string($_POST['product_price']);
+    $product_desc = $con->real_escape_string($_POST['product_desc']);
+    $product_stock = $con->real_escape_string($_POST['product_stock']);
+    $product_color = $con->real_escape_string($_POST['product_color']);
+    $product_type = $con->real_escape_string($_POST['product_type']);
+    $product_material = $con->real_escape_string($_POST['product_material']);
+    $product_image = $_FILES['product_image']['name'];
+    $temp_image = $_FILES['product_image']['tmp_name'];
 
-        if (empty($product_name) || empty($product_price) || empty($product_desc) || empty($product_stock) ||
-            empty($product_color) || empty($product_type) || empty($product_material) || empty($product_image)) {
-            throw new Exception('Ne hagyd üreset a mezőt/mezőket');
-        }
+    echo "POST adatok fogadva. ";
+
+    if (empty($product_name) || empty($product_price) || empty($product_desc) || empty($product_stock) ||
+        empty($product_color) || empty($product_type) || empty($product_material) || empty($product_image)) {
+        echo "<script>alert('Ne hagyd üreset a mezőt/mezőket')</script>";
+        exit();
+    } else {
+        echo "Kép ellenőrzése megtörtént. ";
 
         if ($_FILES['product_image']['size'] > 5000000) { // Maximum 5 MB
-            throw new Exception('A kép mérete túl nagy. Maximum 5 MB engedélyezett.');
+            echo "<script>alert('A kép mérete túl nagy. Maximum 5 MB engedélyezett.')</script>";
+            exit();
         }
 
         $allowed_extensions = array('jpg', 'jpeg', 'png', 'gif');
         $file_extension = strtolower(pathinfo($product_image, PATHINFO_EXTENSION));
 
         if (!in_array($file_extension, $allowed_extensions)) {
-            throw new Exception('Csak JPG, JPEG, PNG és GIF fájltípusok engedélyezettek.');
+            echo "<script>alert('Csak JPG, JPEG, PNG és GIF fájltípusok engedélyezettek.')</script>";
+            exit();
         }
+
+        echo "Kép mentése megtörtént. ";
 
         move_uploaded_file($temp_image, "./product_images/$product_image");
 
@@ -41,12 +48,10 @@ if (isset($_POST['insert_product'])) {
         if ($insert_products->execute()) {
             echo "<script>alert('A termék feltöltése sikeresen megtörtént')</script>";
         } else {
-            throw new Exception('A feltöltés során hiba lépett fel: ' . $insert_products->error);
+            echo "<script>alert('A feltöltés során hiba lépett fel: " . $insert_products->error . "')</script>";
         }
 
         $insert_products->close();
-    } catch (Exception $e) {
-        echo "<script>alert('" . $e->getMessage() . "')</script>";
     }
 }
 
@@ -88,7 +93,7 @@ while ($color_row = $result_colors_query->fetch_assoc()) {
     <h1 class="text-center">Add product</h1>
 
     <!--Form-->
-    <form action="index.php?loadinsert_product" method="POST" enctype="multipart/form-data">
+    <form action="index.php?insert_product" method="POST" enctype="multipart/form-data">
 
         <div class="form-outline mb-4">
             <label for="product_name" class="form-label">
