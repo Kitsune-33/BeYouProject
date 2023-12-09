@@ -24,7 +24,7 @@ session_start();
                     echo "<h1 class='position-absolute top-50 start-0 text-center text-white'>Welcome <br> $username</h1>";
                     echo "<h1>Sikeres bejelentkezés!</h1>";
                     echo '<p>Üdvözlünk a webáruházunkban.</p>';
-                    echo '<a href="profilepage.php"><button>Profil oldal megnyitása</button></a>';
+                    echo '<a href="products.php"><button>Termékek megtekintése</button></a>';
                     echo '<br><br><a href="loginpage.php"><button>Kijelentkezés</button></a>';
                 } else {
                     echo "<h1>Sikeres bejelentkezés!</h1>";

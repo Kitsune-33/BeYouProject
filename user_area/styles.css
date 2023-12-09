@@ -1,0 +1,253 @@
+.keret {
+    border-bottom: 6px solid pink;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.keret2 {
+    border-bottom: 1px solid gray;
+}
+
+.logo img {
+    max-width: 180px;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0; /* Hozzáadva a margin: 0; tulajdonság */
+    display: flex;
+    /* Középre igazítás */
+}
+
+.menu li {
+    margin: 20px; /* Minimális térköz minden oldalról */
+    font-size: 18px;
+    justify-content: center;
+    color: rgb(60, 60, 60);
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    .menu ul {
+        flex-direction: column;
+        align-items: center; /* Középre igazítás kisebb kijelzőn */
+    }
+}
+
+.nnav {
+    margin: auto;
+}
+
+.active-pink input.form-control[type=text] {
+    border-bottom: 1px solid #f48fb1;
+    box-shadow: 0 1px 0 0 #f48fb1;
+}
+
+.search-container {
+    display: flex;
+    justify-content: flex-end; /* A jobb oldali elhelyezkedéshez */
+    align-items: center;
+    margin-top: 20px; /* Fentről a container tetejétől elindítva az eloszlást */
+    margin-bottom: auto; /* Lentről a container aljától elindítva az eloszlást */
+}
+
+.search-form {
+    width: 50%; /* Keresőmező szélessége, lehet állítani */
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.banner-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.banner-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+
+.custombutton{
+    width: 100%;
+    height: 2.5rem;
+    background-color:white;
+    border:1px solid lightgray;
+    text-align: left;
+}
+.sort-text{
+    text-align: left;
+    width: 100%;
+}
+.sort-icon{
+    text-align: right;
+    width: 100%;
+}
+.box-1{
+    border:2px solid green;
+
+}
+
+li{
+    list-style: none;
+    margin-top: 0.25rem;
+}
+
+ul{
+    padding: 0;
+}
+
+.wrapper {
+    width: 100%;
+    display: flex;
+    margin-bottom: 1em;
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    height: 1.5em;
+    width: 1.5em;
+    background-color: white;
+    border: 2px solid rgb(42, 42, 42);
+    border-radius: 0;
+    cursor: pointer;
+    display: flex;
+    outline: none;
+    align-items: center;
+    justify-content: center;
+}
+
+label {
+    color: black;
+    font-size: 1em;
+    cursor: pointer;
+    margin-left: 0.5em;
+}
+
+input[type="checkbox"]:after {
+    font-family: "Font awesome 6 Free";
+    content: "\f00c";
+    font-weight: 600;
+    font-size: 1em;
+    color: #ffffff;
+    display: none;
+}
+
+input[type="checkbox"]:hover {
+    background-color: white;
+}
+
+input[type="checkbox"]:checked {
+    background-color: rgb(31,31,31);
+}
+
+input[type="checkbox"]:checked:after {
+    display: block;
+}
+
+button {
+border: none;
+background: none;
+padding: 0;
+font: inherit;
+cursor: pointer;
+outline: inherit;
+display: inline-flex;
+align-items: center;
+margin:0;
+}
+
+.material-filter {
+cursor: pointer;
+position: relative;
+display: inline-flex;
+align-items: center;
+}
+
+.outer-circle {
+width: 30px;
+height: 30px;
+border: 2px solid #B5B5B5;
+border-radius: 50%;
+position: relative;
+}
+
+.inner-circle {
+width: 100%;
+height: 100%;
+border-radius: 50%;
+position: absolute;
+top: 0;
+left: 0;
+transition: background-color 0.3s ease;
+}
+
+.text {
+margin-left: 0.5em;
+font-size: 16px;
+color: #333; /* Változtathatsz a szöveg színén */
+}
+
+.hover-frame {
+width: calc(100% + 8px);
+height: calc(100% + 8px);
+border: 2px solid transparent;
+border-radius: 50%;
+position: absolute;
+top: -4px;
+left: -4px;
+transition: border-color 0.3s ease;
+}
+
+.material-filter:hover .hover-frame {
+border-color: #000000; /* Változtathatsz a hover keretének színén */
+}
+
+.material-filter.active .hover-frame {
+border-color: #000000; /* Változtathatsz az aktív állapot keretének színén */
+}
+
+#innercolor1{
+background-color: black;
+}
+#innercolor2{
+background-color: #FFFF00;
+}
+#innercolor3{
+background-color: #F00F00;
+}
+#innercolor4{
+background-color: #FE249A;
+}
+#innercolor5{
+background-color: #0070D2;
+}
+
+
+.productbox {
+padding: 15px;
+margin-bottom: 20px;
+}
+
+.disp_productimg img {
+max-width: 100%;
+height: auto;
+}
+
+.disp_productname p {
+font-size: 18px;
+font-weight: 600;
+margin: 0;
+}
+
+.disp_productprice p {
+font-size: 16px;
+margin: 0;
+}

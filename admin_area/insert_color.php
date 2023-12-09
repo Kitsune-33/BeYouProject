@@ -1,6 +1,5 @@
-<!--Űrlap összekötése az adatbázissal-->
 <?php
-include('../includes/connect.php');
+include('../includes/connect.php'); //<!--Űrlap összekötése az adatbázissal-->
 
 
 if(isset($_POST['insert_color'])){
@@ -10,7 +9,7 @@ if(isset($_POST['insert_color'])){
     $select_query = "SELECT * FROM colors WHERE color_name='$colors_title'";
     $result_select = mysqli_query($con, $select_query);
     $number = mysqli_num_rows($result_select);
-
+    //Megnézzük hogy rendelkezünk e már ilyen színnel.
     if($number > 0){
         echo "<script>alert('This color is already present in the database')</script>";
     } else {
@@ -31,7 +30,7 @@ if(isset($_POST['insert_color'])){
 
 <!--Űrlap az adatbázisba való szín feltöltéshez-->
 
-<!--Szöveges beviteli mező-->
+<!--Szöveges beviteli mező -->
 <form action="index.php?insert_color" method="post" class="mb-2">
     <div class="d-flex justify-content-center align-items-center w-100">
         <div class="input-group w-75 mb-2">

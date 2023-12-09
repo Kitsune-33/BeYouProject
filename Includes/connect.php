@@ -1,4 +1,4 @@
-<!--Csatlakozás az adatbázishoz-->
+<!--connect.php tartalmazza az adatbázishoz való csatlakozást.-->
 <?php
 
 $servername = "localhost";
@@ -9,10 +9,10 @@ $database = "BeYou";
 // Kapcsolódás az adatbázishoz
 $con = new mysqli($servername, $username, $password, $database);
 
-// Ellenőrizze a kapcsolatot
+// Kapcsolat ellenőrzése
 if ($con->connect_error) {
     die("Connection failed: " . $con->connect_error);
 }
 
-// echo "Connection successful";                  Nem iratjuk ki
+// echo "Connection successful";    Nem iratjuk ki
 ?>

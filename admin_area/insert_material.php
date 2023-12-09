@@ -43,3 +43,10 @@ if(isset($_POST['insert_material'])){
         </div>
     </div>
 </form>
+
+
+<?php
+if(isset($_POST['insert_material'])) {
+    // Feldolgozás logikája
+}
+?>
