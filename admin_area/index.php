@@ -177,7 +177,10 @@
                                 <a href="index.php?loadhome" class="nav-link">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a href="index.php?loadorders" class="nav-link">Rendelések</a>
+                                <a href="index.php?loadorders" class="nav-link">Rendelések megtekintése</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="index.php?loadproduct" class="nav-link">Termékek megtekintése</a>
                             </li>
                             <li class="nav-item">
                                 <a href="index.php?loadinsert_product" class="nav-link">Termék feltöltése</a>

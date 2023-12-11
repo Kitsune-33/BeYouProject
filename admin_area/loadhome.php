@@ -50,6 +50,43 @@
 
     </style>
 
+<?php
+include('../includes/connect.php');
+
+// Query a user_table sorainak számolására
+$user_count_query = "SELECT COUNT(*) as user_count FROM user_table";
+$user_count_result = mysqli_query($con, $user_count_query);
+
+// Ellenőrizzük, hogy a lekérdezés sikeres volt-e
+if ($user_count_result) {
+    // Fetch-eljük az eredményt asszociatív tömbként
+    $user_count_data = mysqli_fetch_assoc($user_count_result);
+
+    // Szerezzük meg a számláló értékét
+    $user_count = $user_count_data['user_count'];
+} else {
+    // Ha a lekérdezés nem sikerült, állítsunk be egy alapértelmezett értéket
+    $user_count = "N/A";
+}
+
+
+// Query a user_table sorainak számolására
+$order_count_query = "SELECT COUNT(*) as order_count FROM orders";
+$order_count_result = mysqli_query($con, $order_count_query);
+
+// Ellenőrizzük, hogy a lekérdezés sikeres volt-e
+if ($order_count_result) {
+    // Fetch-eljük az eredményt asszociatív tömbként
+    $order_count_data = mysqli_fetch_assoc($order_count_result);
+
+    // Szerezzük meg a számláló értékét
+    $order_count = $order_count_data['order_count'];
+} else {
+    // Ha a lekérdezés nem sikerült, állítsunk be egy alapértelmezett értéket
+    $order_count = "N/A";
+}
+?>
+
 <body>
     <div class="container">
         <div class="row">
@@ -57,7 +94,7 @@
                 <div class="displayer mb-2">
                     <div class="vertical_center ms-3">
                         <div class="displayer_header">
-                            <h4>[42]</h4>
+                            <h4>[<?php echo $user_count; ?>]</h4>
                         </div>
                         <div class="displayer_data">
                             <h5>Regisztrált felhasználó</h5>
@@ -75,7 +112,7 @@
                 <div class="displayer mb-2">
                     <div class="vertical_center ms-3">
                         <div class="displayer_header">
-                            <h4>[7]</h4>
+                            <h4>[<?php echo $order_count; ?>]</h4>
                         </div>
                         <div class="displayer_data">
                             <h5>Leadott rendelések száma</h5>
