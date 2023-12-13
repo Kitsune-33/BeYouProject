@@ -7,22 +7,23 @@
     <title>Responsive Navigation</title>
     <link rel="stylesheet" href="header.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    
 </head>
 
 <body>
     
     <header>
-        <div class="headerdiv1">
-            <div class="headerlogo">
-                <img src="../img/Logo.png" alt=""> 
+        <div class="header_headerdiv1">
+            <div class="header_headerlogo">
+                <img class="header_img" src="../img/Logo.png" alt=""> 
             </div>
-            <div class="headericons">
-                <a href="#">
+            <div class="header_headericons">
+                <a href="loginpage.php">
                     <span class="material-symbols-outlined iconstyle">
                         person
                     </span>
                 </a>
-                <a href="#">
+                <a href="cartpage.php">
                     <span class="material-symbols-outlined iconstyle">
                         shopping_bag
                     </span>
@@ -30,33 +31,33 @@
             </div>
         </div>
 
-        <div class="headerdiv2">
-            <nav class="navbar">
-                <ul class="nav-menu">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">Home</a>
+        <div class="header_headerdiv2">
+            <nav class="header_navbar">
+                <ul class="header_nav-menu">
+                    <li class="header_nav-item">
+                        <a href="#" class="header_nav-link">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">Összes termékek</a>
+                    <li class="header_nav-item">
+                        <a href="#" class="header_nav-link">Összes termékek</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">Gyűrűk</a>
+                    <li class="header_nav-item">
+                        <a href="#" class="header_nav-link">Gyűrűk</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">Karkötők</a>
+                    <li class="header_nav-item">
+                        <a href="#" class="header_nav-link">Karkötők</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">Nyakláncok</a>
+                    <li class="header_nav-item">
+                        <a href="#" class="header_nav-link">Nyakláncok</a>
                     </li>
                 </ul>
-                <div class="hamburger">
+                <div class="header_hamburger">
                     <span class="bar"></span>
                     <span class="bar"></span>
                     <span class="bar"></span>
                 </div>
-                <div class="search-container">
+                <div class="header_search-container">
                     <form action ="#">
-                        <input type="search" class="search-data" placeholder="Search" required>
+                        <input type="search" class="header_search-data" placeholder="Search" required>
                         <button type="submit" class="fas fa-search"><span class="material-symbols-outlined">search</span></button>
                     </form>
                 </div>

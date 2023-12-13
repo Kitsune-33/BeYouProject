@@ -1,3 +1,4 @@
+<?php include 'header.php'?>
 <?php
 include('../includes/connect.php');
 session_start();
@@ -20,7 +21,7 @@ if (isset($_SESSION['username'])) {
     </style>
 </head>
 <body>
-    <?php include 'header.php'?>
+    
     <div class="container">
         <div class="banner-container">
             <img class="banner-img" src="../img/bannerimg_2.png" alt="Banner kép">
@@ -90,8 +91,8 @@ if (isset($_SESSION['username'])) {
                         <h4>Fém</h4>
                     </div>
                     <div class="material_filter">
-                        <ul>
-                            <li>
+                        <ul class="ul_filter">
+                            <li class="li_filter>
                                 <button class="material-filter" onclick="toggleActive(this)">
                                     <span class="outer-circle">
                                         <span id="innercolor1" class="inner-circle"></span>

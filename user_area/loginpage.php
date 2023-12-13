@@ -75,12 +75,12 @@ if (isset($_POST['user_login'])) {
 </head>
 
 <body>
-
+<?php include 'header.php'?>
 
       <div class="container">
         <div class="row justify-content-center mt-5 mb-4">
             <div class="col-lg-12">
-                <div class=" text-center">
+                <div class="text-center">
                     <h1 class="display-4">My profile</h1>
                 </div>
             </div>
