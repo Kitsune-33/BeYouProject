@@ -1,0 +1,4 @@
+Rózsaszín   :   #FFCAD4
+Szürke1     :   #D0D1D2
+Szürke2     :   #F6F6F6
+Szürke3     :   #27251F

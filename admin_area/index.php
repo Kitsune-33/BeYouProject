@@ -1,3 +1,17 @@
+<?php
+include('../includes/connect.php');
+session_start();
+
+// Ellenőrizzük, hogy be van-e jelentkezve egyáltalán valaki
+if (isset($_SESSION['user_type']) && $_SESSION['user_type'] == 'admin') {
+    $admin_username = $_SESSION['admin_username'];
+} else {
+    // Ha nincs bejelentkezve admin, átirányítjuk a bejelentkező oldalra
+    header("location: /BeYou_web/Beyouproject/user_area/loginpage.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,93 +35,42 @@
     <style>
         .keret {
             border-bottom: 6px solid pink;
-            width: 100%;
-            box-sizing: border-box;
         }
 
-        .keret2 {
-            border-bottom: 1px solid gray;
-        }
 
         .logo img {
             max-width: 180px;
         }
 
-        .menu {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-        } 
-        .menu ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-        }
-
-        .menu li {
-            margin: 20px;
-            font-size: 18px;
-            justify-content: center;
-            color: rgb(60, 60, 60);
-            font-size: 16px;
-        }
-
-        @media (max-width: 768px) {
-            .menu ul {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-
-        .nnav {
-            margin: auto;
-        }
-
-        .active-pink input.form-control[type=text] {
-            border-bottom: 1px solid #f48fb1;
-            box-shadow: 0 1px 0 0 #f48fb1;
-        }
-
-        .search-container {
+        .name_container {
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            margin-top: 20px;
-            margin-bottom: auto;
+            height: auto;
+            margin-top: 20px; /* Fentről távolság */
+            margin-bottom: 20px; /* Lentől távolság */
         }
 
-        .search-form {
-            width: 50%;
-        }
-
-        .col-12.col-md-3 {
-            padding: 20px;
-        }
-
-        .nav.flex-column {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
 
         .nav-item {
             margin-bottom: 10px;
         }
 
         .nav-link {
-            text-decoration: none;
-            color: #343a40;
+            color: black;
             font-size: 18px;
-            border-radius: 5px;
-            padding: 10px;
-            border: 2px solid transparent;
+            border: 2px solid transparent; /* ne csúszkáljon */
         }
 
         .nav-link.active,
         .nav-link:hover {
             border-bottom: 2px solid pink;
+            color:gray;
+        }
+
+        
+        .admin_navbar{
+            border-right: 3px solid pink;
         }
 
         /* Responsive beállítások a Sidebar-hoz */
@@ -116,20 +79,12 @@
                 text-align: center;
             }
 
-            .nav.flex-column {
-                text-align: center;
-            }
-
             .nav-item {
                 margin-bottom: 10px;
             }
         }
 
-
-        .line{
-            border-right: 3px solid pink;
-        }
-
+        
     </style>
 
 </head>
@@ -141,37 +96,29 @@
     <div class="container">
         <div class="row">
             <div class="col-6">
-                <div class="magas">
-                    <div class="logo">
-                        <img src="img/logo.png" alt="Logo">
-                    </div>
+                <div class="logo">
+                    <img src="img/logo.png" alt="Logo">
                 </div>
             </div>
             <div class="col-6">
-                <!-- Search form -->
-                <div class="search-container mt-4">
-                    <div class="adminname">
-                        <h3>[Adminnév]</h3>
-                    </div>
+                <div class="name_container">
+                    <h3>[<?php echo $admin_username; ?>]</h3>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="keret"></div>
-    <div class="keret2"></div>
+
 
 <!-----------------------------------------------------------------------HEADER END-------------------------------------------------------->
 
-    <div class="container mt-4">   
-
-        <!-- Adminfelület navigációs sáv -->
-
-        <div class="container-fluid">
+    <div class="container-fluid mt-4">  
+            <!-- Adminfelület navigációs sáv -->
             <div class="row">
                 <!-- Sidebar (Menu) -->
                 <div class="col-12 col-md-3">
-                    <div class="line">
+                    <div class="admin_navbar">
                         <ul class="nav flex-column">
                             <li class="nav-item">
                                 <a href="index.php?loadhome" class="nav-link">Home</a>
@@ -180,7 +127,7 @@
                                 <a href="index.php?loadorders" class="nav-link">Rendelések megtekintése</a>
                             </li>
                             <li class="nav-item">
-                                <a href="index.php?loadproduct" class="nav-link">Termékek megtekintése</a>
+                                <a href="index.php?loadedit_product" class="nav-link">Termékek szerkesztése</a>
                             </li>
                             <li class="nav-item">
                                 <a href="index.php?loadinsert_product" class="nav-link">Termék feltöltése</a>
@@ -198,20 +145,23 @@
                 <div class="col-12 col-md-9">
                     <div class="container">
                         <div class="row">
-                            <div class="oldalfeltoltes mt-4">
+                            <div class="oldalfeltoltes">
 
                             
                             <?php
-                                if (isset($_GET['loadinsert_details'])) {
-                                    include('loadinsert_details.php');
-                                } elseif (isset($_GET['loadinsert_product'])) {
-                                    include('loadinsert_product.php');
-                                } elseif (isset($_GET['loadhome'])) {
+                                if (isset($_GET['loadhome'])) {
                                     include('loadhome.php');
                                 } elseif (isset($_GET['loadorders'])) {
                                     include('loadorders.php');
-                                }
+                                } elseif (isset($_GET['loadedit_product'])) {
+                                    include('loadedit_product.php');
+                                } elseif (isset($_GET['loadinsert_product'])) {
+                                    include('loadinsert_product.php');
+                                } elseif (isset($_GET['loadinsert_details'])) {
+                                include('loadinsert_details.php');
+                            }
                             ?>
+
 
                             <div class="oldalfeltoltes2">
                             <?php
@@ -229,7 +179,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 
 
@@ -238,4 +187,3 @@
 </body>
 
 </html>
-

@@ -1,17 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "Hamii";
-$password = "4M9TZedhhxxd-PFP";
-$database = "BeYou";
-
-// Kapcsolódás az adatbázishoz
-$con = new mysqli($servername, $username, $password, $database);
-
-// Ellenőrizze a kapcsolatot
-if ($con->connect_error) {
-    die("Connection failed: " . $con->connect_error);
-}
-
+include('../includes/connect.php');
 // BEJELENTKEZÉS
 session_start();
 
@@ -19,35 +7,55 @@ if (isset($_POST['user_login'])) {
     $login_username = mysqli_real_escape_string($con, $_POST['login_username']);
     $login_password = mysqli_real_escape_string($con, $_POST['login_password']);
 
-    // Ellenőrzés az adatbázisban
-    $select_query = "SELECT * FROM user_table WHERE username = '$login_username'";
-    $result_select = mysqli_query($con, $select_query);
+    // Ellenőrzés az user_table-ban
+    $select_user_query = "SELECT * FROM user_table WHERE username = '$login_username'";
+    $result_user_select = mysqli_query($con, $select_user_query);
 
-    if ($result_select) {
-        if (mysqli_num_rows($result_select) == 1) {
-            $row = mysqli_fetch_assoc($result_select);
-            $hashed_password = $row['password'];
+    if ($result_user_select) {
+        if (mysqli_num_rows($result_user_select) == 1) {
+            $row_user = mysqli_fetch_assoc($result_user_select);
+            $hashed_password_user = $row_user['password'];
 
-            // Ellenőrzés a megadott jelszó alapján
-            if (password_verify($login_password, $hashed_password)) {
-                // Sikeres bejelentkezés
-                $_SESSION['user_id'] = $row['user_ID'];
-                $_SESSION['username'] = $row['username'];
+            if (password_verify($login_password, $hashed_password_user)) {
+                // Sikeres bejelentkezés az user_table-ból
+                $_SESSION['user_id'] = $row_user['user_ID'];
+                $_SESSION['user_username'] = $row_user['username'];
+                $_SESSION['user_type'] = 'user'; // Hozzáadva a felhasználó típusa
 
                 // Átirányítás a welcome.php oldalra vagy más céloldalra
                 header("location: welcome.php");
                 exit();
-            } else {
-                echo "<script>alert('Hibás felhasználónév vagy jelszó. Kérjük, próbáld újra.')</script>";
             }
-        } else {
-            echo "<script>alert('Hibás felhasználónév vagy jelszó. Kérjük, próbáld újra.')</script>";
         }
-    } else {
-        echo "Hiba a lekérdezés során: " . mysqli_error($con);
     }
+
+    // Ha nem található az user_table-ben, ellenőrizzük a table_admin-t
+    $select_admin_query = "SELECT * FROM table_admin WHERE admin_username = '$login_username'";
+    $result_admin_select = mysqli_query($con, $select_admin_query);
+
+    if ($result_admin_select) {
+        if (mysqli_num_rows($result_admin_select) == 1) {
+            $row_admin = mysqli_fetch_assoc($result_admin_select);
+            $hashed_password_admin = $row_admin['admin_password'];
+
+            if (password_verify($login_password, $hashed_password_admin)) {
+                // Sikeres bejelentkezés a table_admin-ból
+                $_SESSION['admin_id'] = $row_admin['admin_ID'];
+                $_SESSION['admin_username'] = $row_admin['admin_username'];
+                $_SESSION['user_type'] = 'admin'; // Hozzáadva az admin típusa
+
+                // Átirányítás az admin területre
+                header("location: /BeYou_web/Beyouproject/admin_area/index.php");
+                exit();
+            }
+        }
+    }
+
+    // Ha mindkét ellenőrzés sikertelen, hibás felhasználónév vagy jelszó
+    echo "<script>alert('Hibás felhasználónév vagy jelszó. Kérjük, próbáld újra.')</script>";
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

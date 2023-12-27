@@ -23,12 +23,10 @@
 
         @media (max-width: 768px) {
             .menu {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .menu-item {
-                margin: 10px 0;
+                display:flex;
+                justify-content: center;
+                margin-top: 20px;
+                border-top: 3px solid pink;
             }
         }
 
@@ -37,11 +35,9 @@
 <body>
     <div class="konzol_felulet">
         <div class="menu">
-            <a href="list_products.php" class="menu-item">Termék Törlése</a>
-            <a href="list_products.php" class="menu-item">Termék Szerkesztése</a>
             <a href="index.php?insert_color" class="menu-item">Szín hozzáadása</a>
             <a href="index.php?insert_type" class="menu-item">Ékszertípus hozzáadása</a>
-            <a href="index.php?insert_material" class="menu-item">Anyagfajta hozzáadása</a>
+            <a href="index.php?insert_material" class="menu-item">Anyagtípus hozzáadása</a>
         </div>
     </div>
     <!-- ... (a többi rész) ... -->

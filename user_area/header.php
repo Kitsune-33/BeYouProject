@@ -38,7 +38,7 @@
                         <a href="#" class="header_nav-link">Home</a>
                     </li>
                     <li class="header_nav-item">
-                        <a href="#" class="header_nav-link">Összes termékek</a>
+                        <a href="products.php" class="header_nav-link">Összes termékek</a>
                     </li>
                     <li class="header_nav-item">
                         <a href="#" class="header_nav-link">Gyűrűk</a>
