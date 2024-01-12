@@ -1,65 +1,7 @@
-<?php
-include('../includes/connect.php');
-session_start();
-    
-
-// Ellenőrizzük, hogy a felhasználó bejelentkezett-e
-if (isset($_SESSION['username'])) {
-    $username = $_SESSION['username'];
-
-    // SQL lekérdezés a felhasználó adatainak lekéréséhez
-    $user_query = "SELECT * FROM user_table WHERE username = '$username'";
-    $result_user = mysqli_query($con, $user_query);
-
-    // Ellenőrizzük, hogy a lekérdezés sikeres volt-e
-    if ($result_user) {
-        $row_user = mysqli_fetch_assoc($result_user);
-
-        // Felhasználó adatainak tárolása változókban
-        $name = $row_user['name'];
-        $gender = $row_user['gender'];
-        $birthdate = $row_user['birthdate'];
-        $email = $row_user['email'];
-
-        // SQL lekérdezés a szállítási adatok lekéréséhez
-        $shipping_query = "SELECT * FROM shipping_addresses WHERE user_ID = " . $row_user['user_ID'];
-        $result_shipping = mysqli_query($con, $shipping_query);
-
-        // Ellenőrizzük, hogy a lekérdezés sikeres volt-e
-        if ($result_shipping) {
-            $row_shipping = mysqli_fetch_assoc($result_shipping);
-
-            // Szállítási adatok tárolása változókban
-            $country = $row_shipping['country'];
-            $postal_code = $row_shipping['postal_code'];
-            $street_address = $row_shipping['street_address'];
-            $city = $row_shipping['city'];
-
-            // SQL lekérdezés a korábbi rendelések lekéréséhez
-            $order_query = "SELECT * FROM orders WHERE user_ID = " . $row_user['user_ID'] . " ORDER BY order_date DESC LIMIT 1";
-            $result_order = mysqli_query($con, $order_query);
-
-            // Ellenőrizzük, hogy volt-e korábbi rendelés
-            if ($result_order && mysqli_num_rows($result_order) > 0) {
-                $row_order = mysqli_fetch_assoc($result_order);
-                $order_number = $row_order['order_number'];
-            } else {
-                $order_number = "Nincs korábbi rendelés";
-            }
-
-            // Az adatokat a HTML-ben használd fel
-        } else {
-            // Hiba kezelése, ha a szállítási adatok lekérdezése nem volt sikeres
-            echo "Hiba a szállítási adatok lekérdezésekor";
-        }
-    } else {
-        // Hiba kezelése, ha a felhasználó adatainak lekérdezése nem volt sikeres
-        echo "Hiba a felhasználó adatainak lekérdezésekor";
-    }
-} else {
-    // Ha a felhasználó nincs bejelentkezve, akkor további műveletek...
-    echo "<p>Session fut, de nincs bejelentkezett felhasználó.</p>";
-}
+<?php 
+include '../includes/connect.php';
+include 'includes/session.php';
+include 'includes/header.php';
 ?>
 
 <!DOCTYPE html>
@@ -76,17 +18,16 @@ if (isset($_SESSION['username'])) {
 
     <title>Profile page</title>
 
-    <link rel="stylesheet" href="profile.css">
-
+    <link rel="stylesheet" href="css/profilepage.css">
+    <link rel="stylesheet" href="css/font_import.css">
     <!-- Bootstrap CSS link -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
 </head>
 
 <body>
-<?php include 'header.php'?>
 
-    <div class="container-fluid p-0 position-relative mt-3">
+    <div class="container-fluid p-0 position-relative">
         <div class="row">
             <div class="col-12">
                 <img src="../user_area/img/banner.png" class="img-fluid w-100">
@@ -95,83 +36,34 @@ if (isset($_SESSION['username'])) {
         </div>
     </div>
 
-
     <div class="container mt-5">
         <div class="row">
-            <div class="col-12 col-md-6 mb-4">
+            <div class="col-12 col-md-6">
                 <div class="ccardbody">
                     <div class="ccard">
                         <div class="ccardheader">
                             <div class="ccardprocontent">
                                 <div class="ccardcontent">
-                                    <h3>Előző rendelések</h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ccardprocontent">
-                            <div class="ccardcontent">
-                                <p class="dataheader">Rendelés száma:</p>
-                                <p><?php echo $order_number; ?></p>
-                            </div>
-                            <div class="ccardedit">
-                                <p class="underlined">Megtekintés</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-md-6 mb-4">
-                <div class="ccardbody">
-                    <div class="ccard">
-                        <div class="ccardheader">
-                            <div class="ccardprocontent">
-                                <div class="ccardcontent">
-                                    <h3>Kívánságlista</h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ccardprocontent">
-                            <div class="ccardcontent">
-                                <p class="dataheader">Termék neve:</p>
-                                <p>Nagyon pacek aranygyűrű</p>
-                            </div>
-                            <div class="ccardedit">
-                                <p class="underlined">Megtekintés</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt-5">
-            <div class="col-12 col-md-6 mb-4">
-                <div class="ccardbody">
-                    <div class="ccard">
-                        <div class="ccardheader">
-                            <div class="ccardprocontent">
-                                <div class="ccardcontent">
-                                    <h3>Profil</h3>
+                                    <h3>Profile data</h3>
                                 </div>
                                 <div class="ccardedit">
-                                    <p class="underlined">Szerkesztés</p>
+                                    <p class="underlined">Edit</p>
                                 </div>
                             </div>
                         </div>
                         <div class="ccardprocontent">
                             <div class="ccardcontent">
-                                <p class="dataheader">Név</p>
+                                <p class="dataheader">Name</p>
                                 <p><?php echo $name; ?></p>
                             </div>
                             <div class="ccardcontent">
-                                <p class="dataheader">Nem</p>
+                                <p class="dataheader">Gender</p>
                                 <p><?php echo $gender; ?></p>
                             </div>
                         </div>
                         <div class="ccardprocontent">
                             <div class="ccardcontent">
-                                <p class="dataheader">Születésnap</p>
+                                <p class="dataheader">Birthday</p>
                                 <p><?php echo $birthdate; ?></p>
                             </div>
                             <div class="ccardcontent">
@@ -183,37 +75,85 @@ if (isset($_SESSION['username'])) {
                 </div>
             </div>
 
-            <div class="col-12 col-md-6 mb-4">
+            <div class="col-12 col-md-6">
                 <div class="ccardbody">
                     <div class="ccard">
                         <div class="ccardheader">
                             <div class="ccardprocontent">
                                 <div class="ccardcontent">
-                                    <h3>Szállítási adatok</h3>
+                                    <h3>Shipping informations</h3>
                                 </div>
                                 <div class="ccardedit">
-                                    <p class="underlined">Szerkesztés</p>
+                                    <p class="underlined">Edit</p>
                                 </div>
                             </div>
                         </div>
                         <div class="ccardprocontent">
                             <div class="ccardcontent">
-                                <p class="dataheader">Ország</p>
+                                <p class="dataheader">Country</p>
                                 <p><?php echo $country; ?></p>
                             </div>
                             <div class="ccardcontent">
-                                <p class="dataheader">Irányítószám</p>
+                                <p class="dataheader">Postal code</p>
                                 <p><?php echo $postal_code; ?></p>
                             </div>
                         </div>
                         <div class="ccardprocontent">
                             <div class="ccardcontent">
-                                <p class="dataheader">Város</p>
+                                <p class="dataheader">City</p>
                                 <p><?php echo $city; ?></p>
                             </div>
                             <div class="ccardcontent">
-                                <p class="dataheader">Utca</p>
+                                <p class="dataheader">Street</p>
                                 <p><?php echo $street_address; ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-12 col-md-6">
+                <div class="ccardbody">
+                    <div class="ccard">
+                        <div class="ccardheader">
+                            <div class="ccardprocontent">
+                                <div class="ccardcontent">
+                                    <h3>Previous orders</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ccardprocontent">
+                            <div class="ccardcontent">
+                                <p class="dataheader">Order number:</p>
+                                <p><?php echo $order_ID; ?></p>
+                            </div>
+                            <div class="ccardedit">
+                                <p class="underlined">View</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="ccardbody">
+                    <div class="ccard">
+                        <div class="ccardheader">
+                            <div class="ccardprocontent">
+                                <div class="ccardcontent">
+                                    <h3>Wish list</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ccardprocontent">
+                            <div class="ccardcontent">
+                                <p class="dataheader">Product name:</p>
+                                <p></p>
+                            </div>
+                            <div class="ccardedit">
+                                <p class="underlined">View</p>
                             </div>
                         </div>
                     </div>
@@ -222,9 +162,12 @@ if (isset($_SESSION['username'])) {
         </div>
     </div>
 
-
     <!-- Bootstrap JS link -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 
 </html>
+
+<?php 
+include 'includes/footer.php' 
+?>

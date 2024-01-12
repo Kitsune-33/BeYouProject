@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'CustomFont';
+    src: url('../user_area/fonts/Optima\ Medium.woff') format('woff');
+    /* Egyéb beállítások (pl. font-weight, font-style) */
+}
+body {
+    font-family: 'CustomFont', sans-serif;
+}

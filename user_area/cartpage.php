@@ -1,254 +1,185 @@
+<?php 
+include '../includes/connect.php';
+include 'includes/session.php';
+include 'includes/header.php';
+
+// Bejelentkezés ellenőrzése
+if (isset($_SESSION['user_username'])) {
+    $username = $_SESSION['user_username'];
+    $user_email = $_SESSION['user_email'];
+    $user_ID = $_SESSION['user_id'];
+} else {
+    // Ha a felhasználó nincs bejelentkezve, esetleg átirányíthatod a bejelentkezési oldalra vagy más kezdeti oldalra.
+    header('Location: loginpage.php');
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Products</title>
-        
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-        <link rel="stylesheet" href="styles.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-        <style>
-            
-            .keret {
-                border-bottom: 6px solid pink;
-                width: 100%;
-                box-sizing: border-box;
-            }
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Page</title>
+    <link rel="stylesheet" href="css/cartpage.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="includes/font_import.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
 
-            .keret2 {
-                border-bottom: 1px solid gray;
-            }
-
-            .logo img {
-                max-width: 180px;
-            }
-
-            .menu ul {
-                list-style: none;
-                padding: 0;
-                margin: 0; /* Hozzáadva a margin: 0; tulajdonság */
-                display: flex;
-                /* Középre igazítás */
-            }
-
-            .menu li {
-                margin: 20px; /* Minimális térköz minden oldalról */
-                font-size: 18px;
-                justify-content: center;
-                color: rgb(60, 60, 60);
-                font-size: 16px;
-            }
-
-            @media (max-width: 768px) {
-                .menu ul {
-                    flex-direction: column;
-                    align-items: center; /* Középre igazítás kisebb kijelzőn */
-                }
-            }
-
-            .nnav {
-                margin: auto;
-            }
-
-            .active-pink input.form-control[type=text] {
-                border-bottom: 1px solid #f48fb1;
-                box-shadow: 0 1px 0 0 #f48fb1;
-            }
-
-            .search-container {
-                display: flex;
-                justify-content: flex-end; /* A jobb oldali elhelyezkedéshez */
-                align-items: center;
-                margin-top: 20px; /* Fentről a container tetejétől elindítva az eloszlást */
-                margin-bottom: auto; /* Lentről a container aljától elindítva az eloszlást */
-            }
-
-            .search-form {
-                width: 50%; /* Keresőmező szélessége, lehet állítani */
-            }
-
-
-            body {
-                margin: 0;
-                padding: 0;
-            }
-
-            .receipt{
-                background-color: #F5F5F5;
-                border-top: 5px solid #FFCAD4;
-            }
-
-            .itemprice{
-                text-align: right;
-            }
-
-            h3{
-                font-weight: bold;
-            }
-
-            .receipt_header h4 {
-                font-weight: 600;
-            }
-
-            .sidetext{
-                color:#71706C;
-            }
-            .sideprice{
-                color:#71706C;
-                font-weight: 600;
-            }
-
-            .fixprice{
-                font-weight: 600;
-            }
-        
-        </style>
-
-    </head>
-    <body>
-        <div class="container">
-            <div class="row">
-                <div class="col-6">
-                    <div class="magas">
-                        <div class="logo">
-                            <img src="img/logo.png" alt="Logo">
-                        </div>
+    <div class="container primary_container">
+        <div class="row">
+            <div class="col-12 col-sm-6 col-lg-8">
+                <div class="cart_items">
+                    <div class="cart_item_number">
+                        <h2 id="cartItemCount">CART [] items</h2>
+                        <hr>
+                    </div>
+                    <div id="cartItemsContainer">
+                        <!-- Az itt lévő adatoknak folyamatosan frissülni kell, amint valami változás lép életbe, ezért AJAX-al oldjuk meg a megjelenítést. -->
                     </div>
                 </div>
-                <div class="col-6">
-                    <!-- Search form -->
-                    <div class="search-container">
-                        <div class="form-inline d-flex justify-content-center md-form form-sm active-pink active-pink-2 mt-2 search-form">
-                            <input class="form-control form-control-sm ml-3 w-100" type="text" placeholder="Search" aria-label="Search">
-                        </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-4 d">
+                <div class="cart_data">
+                    <div class="cart_data_header">
+                        <h2>Cart contents</h2>
+                    </div>
+                    <hr>
+                    <div class="cart_data_subtotal">
+                        <p id="cartItemCountText">Final amount [] product</p>
+                        <p id="cartTotalPrice">[] Ft</p>
+                    </div>
+                    <hr>
+                    <div class="cart_place_order">
+                        <button class="btn_place_order">Place order</button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="keret"></div>
+<script>
+// Fetch and display cart items using AJAX
+function displayCartItems() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "includes/get_cart_items.php", true);
 
-        <div class="container">
-            <div class="nnav">
-                <div class="row">
-                    <div class="menu group col-12">
-                        <ul>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Összes termék
-                                </a>
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var cartItemsContainer = document.getElementById('cartItemsContainer');
+            var cartItems = JSON.parse(xhr.responseText);
 
-                            </li>
-                            <li>Új termékek</li>
-                            <li>Gyűrűk</li>
-                            <li>Karkötők</li>
-                            <li>Füllbevalók</li>
-                            <li>Kollekciók</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+            if (cartItems.length > 0) {
+                var itemCount = 0;
+                var totalAmount = 0;
 
-        <div class="keret2"></div>
-
-
-
-        <div class="container mt-4">
-            <div class="row justify-content-center">
-
-                <div class="col-12 col-lg-6 col-xl-7"> 
-                    <div class="cartlistdiv">
-                        <div class="cartheader">
-                            <h3>Kosaram (X termék)</h3>
+                cartItemsContainer.innerHTML = '<h3>Your Cart</h3>';
+                
+                cartItems.forEach(function(item) {
+                    var cartItemBox = document.createElement('div');
+                    cartItemBox.className = 'cart_items_display';
+                    cartItemBox.innerHTML = `
+                        <div class="cart_image_container">
+                            <img class="cart_item_image" src="../admin_area/product_images/${item.image}" alt="${item.product_name}">
                         </div>
-                            <hr>
-                        <div class="cartbody">
-                            <div class="row">
-                                <div class="col-4 col-md-3">
-                                    <div class="itemimage">
-                                        <img src="../img/karkoto.png" alt="" style="max-width: 100%;">
+                        <div class="cart_item_data">
+                            <div class="cart_item_data_1">
+                                <div class="cart_item_name">
+                                    <h5>${item.product_name}</h5>
+                                </div>
+                                <div class="cart_item_productdata">
+                                    <p>Product ID: ${item.product_ID}</p>
+                                    <p>Material: ${item.material}</p>
+                                    <p>Color: ${item.color}</p>
+                                </div>
+                            </div>
+                            <div class="cart_item_data_2">
+                                <div class="cart_item_price">
+                                    <p>Price: ${item.item_price} Ft</p>
+                                </div>
+                                <div class="quantity_form">
+                                    <div class="quantity_controls">
+                                        <button class="quantity_btn" onclick="updateQuantity(${item.product_ID}, -1)">-</button>
+                                        <input class="quantity_input" id="quantityInput_${item.product_ID}" type="text" value="${item.quantity}" disabled>
+                                        <button class="quantity_btn" onclick="updateQuantity(${item.product_ID}, 1)">+</button>
                                     </div>
                                 </div>
-                                <div class="col-8 col-md-9">
-                                    <div class="d-md-flex">
-                                        <div class="col-md-8">
-                                            <div class="itemname">
-                                                <h4>Pandora Moments szívzáras kígyólánc karkötő</h4>
-                                            </div>
-                                            <div class="itemdata">
-                                                <p class="mb-1">Termék száma: []</p>
-                                                <p class="mb-1">Termék színe : []</p>
-                                                <p class="mb-1">Termék típusa : []</p>
-                                            </div>
-
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="itemprice">
-                                                24.500,00 Ft
-                                            </div>
-                                        </div>
-                                        
-                                    </div>
+                                <div class="cart_item_remove">
+                                    <button onclick="removeItem(${item.product_ID})">Remove</button>
                                 </div>
                             </div>
                         </div>
+                    `;
 
-                    </div>
-                </div>
-                <div class="col-12 col-lg-8 col-xl-3">
-                    <div class="receipt ms-2 mt-2">
-                        <div class="receipt_content p-4">
-                            <div class="receipt_header">
-                                <h4>
-                                    Rendelés áttekintése
-                                </h4>
-                            </div>
-                            <hr>
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <span class="sidetext">Részösszeg</span>
-                                    <span class="sidetext">(1 termék)</span>
-                                </div>
-                                <p class="sideprice">
-                                    24.500,00 Ft
-                                </p>
-                            </div>
-                            <hr>
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <span class="fixprice">Összesen</span>
-                                </div>
-                                <p class="fixprice">
-                                    24.500,00 Ft
-                                </p>
-                            </div>
-                            <div class="row">
-                                <button type="button" class="btn btn-dark">Fizetés</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    cartItemsContainer.appendChild(cartItemBox);
 
+                    itemCount += parseInt(item.quantity);
+                    totalAmount += parseFloat(item.item_price) * parseInt(item.quantity);
+                });
 
+                document.getElementById('cartItemCount').innerText = 'CART ' + itemCount + ' items';
+                document.getElementById('cartItemCountText').innerText = 'Final amount [' + itemCount + '] product';
+                document.getElementById('cartTotalPrice').innerText = '[' + totalAmount + '] Ft';
+            } else {
+                cartItemsContainer.innerHTML = '<p>Your shopping cart is empty.</p>';
+            }
+        } else {
+            console.error(xhr.responseText);
+        }
+    };
 
+    xhr.send();
+}
 
-    <!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+// Function to remove item from cart
+function removeItem(productID) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "includes/remove_cart_item.php?id=" + productID, true);
 
-    </body>
-    </html>
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            // After removing item, refresh the displayed cart items
+            displayCartItems();
+        } else {
+            console.error(xhr.responseText);
+        }
+    };
 
+    xhr.send();
+}
 
+// Function to update item quantity in cart
+function updateQuantity(productID, quantityChange) {
+    var quantityInput = document.getElementById('quantityInput_' + productID);
+    var newQuantity = parseInt(quantityInput.value) + quantityChange;
 
+    if (newQuantity >= 0) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "includes/update_cart_quantity.php?id=" + productID + "&quantity=" + newQuantity, true);
 
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                // After updating quantity, refresh the displayed cart items
+                displayCartItems();
+            } else {
+                console.error(xhr.responseText);
+            }
+        };
 
+        xhr.send();
+    }
+}
 
+// Call the function to display cart items
+displayCartItems();
+</script>
 
+</body>
+</html>
 
-
+<?php
+include 'includes/footer.php';
+?>

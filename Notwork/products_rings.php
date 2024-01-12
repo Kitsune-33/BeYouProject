@@ -1,11 +1,12 @@
-<?php 
-include '../includes/connect.php';
-include 'includes/session.php';
-include 'includes/header.php';
-
-// Az oldal többi része itt helyezkedik el
+<?php include 'header.php'?>
+<?php
+include('../includes/connect.php');
+session_start();
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+    echo "<h1 class='position-absolute top-50 start-0 text-center text-white'>Welcome <br> $username</h1>";
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,12 +19,35 @@ include 'includes/header.php';
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/products.css">
-    <link rel="stylesheet" href="css/font_import.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="includes/font_import.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    
+    <style>
+        @font-face {
+            font-family: 'CustomFont';
+            src: url('../user_area/fonts/Optima\ Medium.woff') format('woff');
+            /* Egyéb beállítások (pl. font-weight, font-style) */
+        }
+        body {
+            font-family: 'CustomFont', sans-serif;
+        }
+    </style>
+    <style>
+        .primary_container{
+            padding-left:3%;
+            padding-right:3%;
+        }
+        .product_card{
+            padding:0%;
+        }
+        .productbox{
+            margin-top: 0;
+            margin-bottom: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    </style>
 </head>
-
 <body>
     <div class="container-fluid">
         <div class="banner-container">
@@ -33,33 +57,14 @@ include 'includes/header.php';
     <div class="container-fluid primary_container mt-4">
         <div class="row">
             <div class="col-12 col-md-3 col-lg-3">
+                <!-- Az ékszer típusokra való szűrést eltávolítottuk -->
+                <hr>
                 <div class="type_header mb-2">
                     <h4>Jewellery</h4>
                 </div>
                 <form id="filterForm">
                     <div class="type_filter">
-                        <?php 
-                            $type_query = "SELECT * FROM types";
-                            $type_query_run = mysqli_query($con, $type_query);
-                            
-                            if(mysqli_num_rows($type_query_run) > 0) {
-                                $checkedTypes = isset($_GET['types']) ? $_GET['types'] : [];
-
-                                foreach($type_query_run as $typelist) {
-                                    $typeID = $typelist['type_ID'];
-                                    $typeName = $typelist['type_Name'];
-                                    $isChecked = in_array($typeID, $checkedTypes);
-                                    ?>
-                                    <div>
-                                        <div class="wrapper">
-                                            <input type="checkbox" name="types[]" value="<?= $typeID ?>" <?= $isChecked ? 'checked' : '' ?>>
-                                            <label><?= $typeName ?></label>
-                                        </div>
-                                    </div>
-                                    <?php
-                                }
-                            }
-                        ?>
+                        <!-- Az ékszer típusokra való szűrést eltávolítottuk -->
                     </div>
                     <hr>
                     <div class="material_card">
@@ -133,76 +138,7 @@ include 'includes/header.php';
     </div>
 
     <script>
-        function filterProducts() {
-            var form = document.getElementById('filterForm');
-            var formData = new FormData(form);
-
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var products = JSON.parse(this.responseText);
-                    updateProductDisplay(products);
-                }
-            };
-
-            xhr.open('GET', 'includes/filter_products.php?' + new URLSearchParams(formData).toString(), true);
-            xhr.send();
-        }
-
-        document.getElementById('filterForm').addEventListener('change', function() {
-        filterProducts();
-        });
-
-        function updateProductDisplay(products) {
-            var productDisplay = document.getElementById('productDisplay');
-            productDisplay.innerHTML = '';
-
-            products.forEach(function(product) {
-                var productBox = document.createElement('div');
-                productBox.className = 'col product_card';
-                productBox.innerHTML = `
-                    <div class="productbox" data-type="${product.type}" data-color="${product.color}" data-material="${product.material}" onclick="redirectToProduct(${product.id})">
-                        <div class="disp_productimg">
-                            <img src="../admin_area/product_images/${product.image}" alt="${product.name}">
-                        </div>
-                        <div class="disp_productdata mt-2">
-                            <div class="disp_productname">
-                                <p>${product.name}</p>
-                            </div>
-                            <div class="disp_productprice">
-                                <p>${product.price} Ft</p>
-                            </div>
-                            <button class="buy-button" onclick="addToCart(${product.id})">Buy</button>
-                        </div>
-                    </div>`;
-
-                productDisplay.appendChild(productBox);
-            });
-        }
-
-        function addToCart(productID) {
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    // Sikeres kosár frissítés esetén itt végezz további logikát (opcionális)
-                    console.log("Termék hozzáadva a kosárhoz!");
-                }
-            };
-
-            xhr.open('GET', '../includes/add_to_cart.php?productID=' + productID, true);
-            xhr.send();
-        }
-
-        function redirectToProduct(productID) {
-            window.location.href = '../user_area/product.php?id=' + productID;
-        }
-
-        document.getElementById('filterForm').addEventListener('change', function() {
-            filterProducts();
-        });
-
-        // Az oldal betöltésekor egyből szűrjük az ékszereket
-        filterProducts();
+        // A JavaScript kód itt maradt, de az ékszer típusokra való szűrést kivettük
     </script>
 
     <!-- Bootstrap és egyéb szükséges JavaScript könyvtárak -->
@@ -211,5 +147,3 @@ include 'includes/header.php';
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
-
-<?php include 'includes/footer.php'; ?>

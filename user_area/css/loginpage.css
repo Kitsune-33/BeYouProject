@@ -1,0 +1,54 @@
+
+.login_szoveg{
+    background-color: black;
+    height: 100px;
+}
+.bejelentkezes{
+    background-color: blue;
+    height: 100px;
+}
+.regisztracio{
+    background-color: rgb(37, 37, 70);
+    max-width: 50%;
+    height: 100px;
+}
+
+
+ul.header_nav-menu{
+    margin-bottom: 0;
+}
+
+/* loginpage.css */
+
+/* Egyéb stílusok itt... */
+
+/* Fő háttérszín beállítása */
+body {
+    background-color: #f8f9fa; /* Válaszd ki a kívánt háttérszínt */
+}
+
+/* Tabs háttérszíne */
+.nav-pills .nav-link.active {
+    background-color: #FFCAD4 !important; /* Rózsaszín háttérszín */
+    color: #27251F !important; /* Szöveg színe */
+}
+.nav-pills .nav-link {
+    background-color: #F6F6F6 !important; /* Rózsaszín háttérszín */
+    color: #27251F !important; /* Szöveg színe */
+}
+
+.btn{
+    background-color: #FFCAD4 !important;
+}
+/* Az űrlapok stílusai itt... */
+
+/* Egyéb stílusok itt... */
+
+
+
+
+
+.forms_1{
+    justify-content: center;
+    width: 75%;
+}

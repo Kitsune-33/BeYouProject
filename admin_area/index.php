@@ -27,10 +27,6 @@ if (isset($_SESSION['user_type']) && $_SESSION['user_type'] == 'admin') {
     <!-- Bootstrap CSS link -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
-
-
-
-
     <!-- ki kell rendezni css-be -->
     <style>
         .keret {
@@ -73,6 +69,11 @@ if (isset($_SESSION['user_type']) && $_SESSION['user_type'] == 'admin') {
             border-right: 3px solid pink;
         }
 
+        .main-container {
+        padding-left: 50px;  /* Bal oldali belső padding */
+        padding-right: 50px;  /* Jobb oldali belső padding */
+        }
+
         /* Responsive beállítások a Sidebar-hoz */
         @media (max-width: 768px) {
             .col-12.col-md-3 {
@@ -113,7 +114,7 @@ if (isset($_SESSION['user_type']) && $_SESSION['user_type'] == 'admin') {
 
 <!-----------------------------------------------------------------------HEADER END-------------------------------------------------------->
 
-    <div class="container-fluid mt-4">  
+    <div class="container-fluid mt-4 main-container">  
             <!-- Adminfelület navigációs sáv -->
             <div class="row">
                 <!-- Sidebar (Menu) -->
