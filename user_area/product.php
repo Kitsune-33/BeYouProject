@@ -124,10 +124,11 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
             <p><strong>Price:</strong> <?php echo $productPrice; ?> Ft</p>
             <hr>
 
-            <form action="includes/add_to_cart.php" method="post">
+            <form id="addToCartForm">
+                <!-- Az űrlap tartalma -->
                 <input type="hidden" name="user_id" value="<?php echo $user_ID; ?>">
                 <input type="hidden" name="product_id" value="<?php echo $productID; ?>">
-                <button type="submit" class="btn_add_cart">Add to cart</button>
+                <button type="button" class="btn_add_cart" id="addToCartBtn">Add to cart</button>
             </form>
 
             <div class="description_and_details">
@@ -153,6 +154,26 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     </div>
 </div>
 <script>
+    document.getElementById('addToCartBtn').addEventListener('click', function () {
+        // AJAX kérés végrehajtása
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "includes/add_to_cart.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        var formData = new FormData(document.getElementById('addToCartForm'));
+        xhr.send(new URLSearchParams(formData));
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                // Sikeres válasz esetén itt kezelheted a választ, ha szükséges
+                console.log(xhr.responseText);
+            } else {
+                // Hiba esetén kezelheted a hibát
+                console.error(xhr.responseText);
+            }
+        };
+    });
+    
     function showDescription() {
         var descriptionDiv = document.querySelector('.description');
         if (descriptionDiv.style.display === 'none' || descriptionDiv.style.display === '') {
@@ -198,6 +219,9 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
         xhr.send();
     }
+
+
+    
 </script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

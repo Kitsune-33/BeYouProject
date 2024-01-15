@@ -19,17 +19,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $checkOrderResult = mysqli_query($con, $checkOrderQuery);
 
         if (mysqli_num_rows($checkOrderResult) > 0) {
-            // Van aktív rendelés, hozzáadja a terméket a rendeléshez
+            // Van aktív rendelés, ellenőrizze, hogy van-e már ilyen termék a rendelésben
             $orderData = mysqli_fetch_assoc($checkOrderResult);
             $orderID = $orderData['order_ID'];
 
-            $insertToOrderItemsQuery = "INSERT INTO order_items (order_ID, product_ID, quantity, item_price,user_ID, status) VALUES ($orderID, $productID, 1, $productPrice,$userID, 'Cart') ON DUPLICATE KEY UPDATE quantity = quantity + 1, status = 'Cart'";
-            $insertToOrderItemsResult = mysqli_query($con, $insertToOrderItemsQuery);
+            $checkExistingProductQuery = "SELECT * FROM order_items WHERE order_ID = $orderID AND product_ID = $productID AND user_ID = $userID AND status = 'Cart'";
+            $checkExistingProductResult = mysqli_query($con, $checkExistingProductQuery);
 
-            if ($insertToOrderItemsResult) {
-                echo json_encode(['status' => 'success']);
+            if (mysqli_num_rows($checkExistingProductResult) > 0) {
+                // A termék már szerepel a rendelésben, növelje meg a mennyiséget
+                $updateQuantityQuery = "UPDATE order_items SET quantity = quantity + 1 WHERE order_ID = $orderID AND product_ID = $productID AND user_ID = $userID AND status = 'Cart'";
+                $updateQuantityResult = mysqli_query($con, $updateQuantityQuery);
+
+                if ($updateQuantityResult) {
+                    // Sikeres frissítés
+                    //echo json_encode(['status' => 'success']);
+                } else {
+                    //echo json_encode(['status' => 'error', 'message' => 'Hiba a mennyiség frissítése közben.']);
+                }
             } else {
-                echo json_encode(['status' => 'error', 'message' => 'Hiba a rendelés tételekhez adás közben.']);
+                // A termék még nincs a rendelésben, adjuk hozzá
+                $insertToOrderItemsQuery = "INSERT INTO order_items (order_ID, product_ID, quantity, item_price, user_ID, status) VALUES ($orderID, $productID, 1, $productPrice, $userID, 'Cart')";
+                $insertToOrderItemsResult = mysqli_query($con, $insertToOrderItemsQuery);
+
+                if ($insertToOrderItemsResult) {
+                    // Sikeres hozzáadás
+                    //echo json_encode(['status' => 'success']);
+                } else {
+                    //echo json_encode(['status' => 'error', 'message' => 'Hiba a rendelés tételekhez adás közben.']);
+                }
             }
         } else {
             // Nincs aktív rendelés, létrehoz egy új rendelést
@@ -39,22 +57,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($createOrderResult) {
                 $orderID = mysqli_insert_id($con);
 
+                // Adjuk hozzá a terméket az új rendeléshez
                 $insertToOrderItemsQuery = "INSERT INTO order_items (order_ID, product_ID, quantity, item_price, user_ID, status) VALUES ($orderID, $productID, 1, $productPrice, $userID, 'Cart')";
                 $insertToOrderItemsResult = mysqli_query($con, $insertToOrderItemsQuery);
 
                 if ($insertToOrderItemsResult) {
-                    echo json_encode(['status' => 'success']);
+                    // Sikeres hozzáadás
+                    //echo json_encode(['status' => 'success']);
                 } else {
-                    echo json_encode(['status' => 'error', 'message' => 'Hiba a rendelés tételekhez adás közben.']);
+                    //echo json_encode(['status' => 'error', 'message' => 'Hiba a rendelés tételekhez adás közben.']);
                 }
             } else {
-                echo json_encode(['status' => 'error', 'message' => 'Hiba az új rendelés létrehozása közben.']);
+                //echo json_encode(['status' => 'error', 'message' => 'Hiba az új rendelés létrehozása közben.']);
             }
         }
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'A kiválasztott termék nem található.']);
+        //echo json_encode(['status' => 'error', 'message' => 'A kiválasztott termék nem található.']);
     }
 } else {
-    echo json_encode(['status' => 'error', 'message' => 'Érvénytelen kérési metódus.']);
+    //echo json_encode(['status' => 'error', 'message' => 'Érvénytelen kérési metódus.']);
 }
 ?>
