@@ -3,13 +3,14 @@ include '../includes/connect.php';
 include 'includes/session.php';
 include 'includes/header.php';
 
-
 // Bejelentkezés ellenőrzése
 if (isset($_SESSION['user_username'])) {
     $username = $_SESSION['user_username'];
     $user_email = $_SESSION['user_email'];
     $user_ID = $_SESSION['user_id'];
+    $is_logged_in = true;
 } else {
+    $is_logged_in = false;
 }
 
 // Ellenőrizze, hogy van-e érvényes termékazonosító
@@ -103,6 +104,30 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         .description {
             width: 100%;
         }
+
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 25px 50px 25px 50px;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition:0.5 sec;
+        }
+
+        .popup-close {
+            font-weight: 600;
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 
@@ -149,12 +174,28 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                         <?php echo $productDescription; ?>
                     </div>
                 </div>
-            </div>
+
+                <!-- Popup box -->
+                <div class="popup" id="popupBox">
+                    <span class="popup-close" onclick="closePopupBox()">&times;</span>
+                    <div id="popupContent">
+                        <?php
+                            if ($is_logged_in) {
+                                echo "Product added to the cart.";
+                            } else {
+                                echo "Please log in first";
+                            }
+                        ?>
+                    </div>
+                </div>
+
         </div>
     </div>
 </div>
+
 <script>
     document.getElementById('addToCartBtn').addEventListener('click', function () {
+        var popupBox = document.getElementById('popupBox');
         // AJAX kérés végrehajtása
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "includes/add_to_cart.php", true);
@@ -167,13 +208,18 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
             if (xhr.status === 200) {
                 // Sikeres válasz esetén itt kezelheted a választ, ha szükséges
                 console.log(xhr.responseText);
+                // Megjelenítjük a popup boxot
+                popupBox.style.display = 'block';
             } else {
                 // Hiba esetén kezelheted a hibát
                 console.error(xhr.responseText);
             }
         };
     });
-    
+    function closePopupBox() {
+        var popupBox = document.getElementById('popupBox');
+        popupBox.style.display = 'none';
+    }
     function showDescription() {
         var descriptionDiv = document.querySelector('.description');
         if (descriptionDiv.style.display === 'none' || descriptionDiv.style.display === '') {

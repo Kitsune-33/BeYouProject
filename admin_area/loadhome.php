@@ -129,7 +129,7 @@ if ($order_count_result) {
                 <div class="displayer mb-2">
                     <div class="vertical_center ms-3">
                         <div class="displayer_header">
-                            <h4>[1210 €]</h4>
+                            <h4>[###]</h4>
                         </div>
                         <div class="displayer_data">
                             <h5>Bevétel</h5>
@@ -146,7 +146,7 @@ if ($order_count_result) {
                 <div class="displayer mb-2">
                     <div class="vertical_center ms-3">
                         <div class="displayer_header">
-                            <h4>[30]</h4>
+                            <h4>[###]</h4>
                         </div>
                         <div class="displayer_data">
                             <h5>Oldal dokumentáció</h5>

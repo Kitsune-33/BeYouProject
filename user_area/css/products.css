@@ -214,12 +214,12 @@ color:#27251F;
             margin: 1%;
         }
 
-        .primary_container{
-            padding-left:5%;
-            padding-right:5%;
+        .primary_container {
+            padding-left:5% !important;
+            padding-right:5% !important;
         }
         .product_card{
-            padding:0%;
+            padding:0% !important;
         }
         .productbox{
             margin-top: 0;

@@ -34,7 +34,7 @@ if (isset($_SESSION['user_username'])) {
             <div class="col-12 col-sm-6 col-lg-8">
                 <div class="cart_items">
                     <div class="cart_item_number">
-                        <h2 id="cartItemCount">CART [] items</h2>
+                        <h2 id="cartItemCount">CART 0 items</h2>
                         <hr>
                     </div>
                     <div id="cartItemsContainer">
@@ -49,7 +49,7 @@ if (isset($_SESSION['user_username'])) {
                     </div>
                     <hr>
                     <div class="cart_data_subtotal">
-                        <p id="cartItemCountText">Final amount [] product</p>
+                        <p id="cartItemCountText">Final amount 0 product</p>
                         <p id="cartTotalPrice">[] Ft</p>
                     </div>
                     <hr>

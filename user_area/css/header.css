@@ -127,7 +127,7 @@
     .header_nav-menu {
         position: fixed;
         left: -100%;
-        top: 136px;
+        top: 126px;
         gap: 0;
         flex-direction: column;
         background-color: white;

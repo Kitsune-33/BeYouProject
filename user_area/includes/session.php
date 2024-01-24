@@ -7,6 +7,7 @@ if (isset($_SESSION['user_username'])) {
     $user_ID = $_SESSION['user_id'];
     $username = $_SESSION['user_username'];
     $user_email = $_SESSION['user_email'];
+    $is_logged_in = true;
 
     // SQL lekérdezés a felhasználó adatainak lekéréséhez
     $user_query = "SELECT * FROM user_table WHERE username = '$username'";
@@ -59,6 +60,6 @@ if (isset($_SESSION['user_username'])) {
         echo "Hiba a felhasználó adatainak lekérdezésekor: " . mysqli_error($con);
     }
 } else {
- //Nincs bejelentkezve a felhasználó
+    $is_logged_in = false;
 }
 ?>

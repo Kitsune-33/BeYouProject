@@ -83,6 +83,24 @@ while ($color_row = $result_colors_query->fetch_assoc()) {
 
 ?>
 
+<style>
+.btn{
+    width: 25%;
+    background-color: #27251F;
+    color: white;
+    justify-content: center;
+    height: 40px;
+}
+
+
+.btn:hover {
+    transition: 0.3s;
+    background-color: #FFCAD4;
+    color: black;
+}
+
+</style>
+
 <div class="container w-50 mt-3">
 
     <h1 class="text-center">Add product</h1>
@@ -156,7 +174,7 @@ while ($color_row = $result_colors_query->fetch_assoc()) {
 
         <!--Submit button-->
         <div class="form-outline mb-4">
-            <input type="submit" name="insert_product" class="btn btn-info" value="Insert product">
+            <input type="submit" name="insert_product" class="btn btn-block mb-3" value="Insert product">
         </div>
 
     </form>

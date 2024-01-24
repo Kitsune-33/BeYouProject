@@ -1,7 +1,0 @@
-Bejelentkezési adatok
-
-User_username:testuser
-User_password:testpw
-
-Admin_username: testadmin
-Admin_password: testadminpw

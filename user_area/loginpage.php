@@ -64,12 +64,7 @@ if (isset($_POST['user_login'])) {
     <link rel="stylesheet" href="css/font_import.css">
     <!-- Bootstrap CSS link -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <style>
-    .forms_1{
-        justify-content: center;
-        width: 75%;
-    }
-    </style>
+
 </head>
 <body>
 
@@ -112,6 +107,11 @@ if (isset($_POST['user_login'])) {
                                         <input type="password" name="login_password" id="login_password"
                                             class="form-control" placeholder="Enter your password" required>
                                     </div>
+
+                                    <div class="form-testdiv mb-4">
+    <label class="form-testlabel" for="login_username">Test</label>
+    <input type="text" name="login_username" id="login_username" class="form-testinput" placeholder="Test" required>
+</div>
 
                                     <!-- Submit button -->
                                     <button type="submit" name="user_login"
@@ -237,18 +237,23 @@ if (isset($_POST['user_login'])) {
                                     <!-- Regisztrációs gomb -->
                                     <div class="form-outline mb-4">
                                         <input type="submit" name="user_register" class="btn btn-block mb-3" value="Register">
-                                        <p>Already have an account? <a href="/user_area/includes/user_login.php">Login</a></p>
+                                        <p>Already have an account? <button class="btn btn-block mb-3" id="backToLoginButton" class="btn btn-primary">
+                                    Back to login
+                                </button></p>
                                     </div>
                                 </form>
 
                                 <!-- Vissza a bejelentkező űrlaphoz gomb -->
-                                <button class="btn btn-block mb-3" id="backToLoginButton" class="btn btn-primary">
-                                    Back to login
-                                </button>
+                                
                             </div>
                         </div>
                     </div>
                 </div>
+                <!--
+                <div class="col-6">
+                    <p>Megrendelés állapotának ellenőrzése </p>
+                </div>
+                -->
             </div>
         </div>
     </div>
