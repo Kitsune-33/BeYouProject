@@ -13,12 +13,13 @@ if (isset($_SESSION['user_type']) && $_SESSION['user_type'] == 'admin') {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="Hu">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <title>Termékek</title>
 
@@ -94,22 +95,36 @@ if (isset($_SESSION['user_type']) && $_SESSION['user_type'] == 'admin') {
 
 <!-----------------------------------------------------------------------HEADER-------------------------------------------------------->
 
-    <div class="container">
-        <div class="row">
-            <div class="col-6">
-                <div class="logo">
-                    <img src="img/logo.png" alt="Logo">
-                </div>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div class="logo">
+                <img src="img/logo.png" alt="Logo">
             </div>
-            <div class="col-6">
-                <div class="name_container">
-                    <h3>[<?php echo $admin_username; ?>]</h3>
-                </div>
+        </div>
+        <div class="col-6">
+            <div class="name_container">
+                <h3>[<?php echo $admin_username; ?>]</h3>
+                <?php
+                if (isset($_SESSION['user_username'])) {
+                    // Ha be van jelentkezve és a logout gombra kattint a felhasználó, a logout.php oldalra továbbítjuk.
+                    echo '<a href="../../user_area/logout.php">';
+                } else {
+                    // Ha nincs bejelentkezve, a login.php oldalra irányítjuk.
+                    echo '<a href="../Frontend/user_area/loginpage.php">';
+                }
+                ?>
+                    <span class="material-symbols-outlined iconstyle">
+                        logout
+                    </span>
+                </a>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="keret"></div>
+<div class="keret"></div>
+
 
 
 <!-----------------------------------------------------------------------HEADER END-------------------------------------------------------->

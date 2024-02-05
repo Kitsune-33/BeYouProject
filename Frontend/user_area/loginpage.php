@@ -22,7 +22,7 @@ if (isset($_POST['user_login'])) {
             $_SESSION['user_id'] = $row_user['user_ID'];
             $_SESSION['user_username'] = $row_user['username'];
             $_SESSION['user_email'] = $row_user['email'];
-            header("location: /BeYou_web/Beyouproject/Frontend/user_area/profilepage.php");
+            header("location: /beyou/BeYouProject/Frontend/user_area/profilepage.php");
             exit();
         }
     }
@@ -40,7 +40,7 @@ if (isset($_POST['user_login'])) {
             $_SESSION['admin_id'] = $row_admin['admin_ID'];
             $_SESSION['admin_username'] = $row_admin['admin_username'];
             $_SESSION['user_type'] = 'admin'; // Hozzáadva az admin típusa
-            header("location: /BeYou_web/Beyouproject/admin_area/index.php");
+            header("location: /beyou/BeYouProject/admin_area/index.php");
             exit();
         }
     }

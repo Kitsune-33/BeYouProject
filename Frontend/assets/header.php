@@ -63,7 +63,7 @@
             <nav class="header_navbar">
                 <ul class="header_nav-menu">
                     <li class="header_nav-item">
-                        <a href="#" class="header_nav-link">Home</a>
+                        <a href="home.php" class="header_nav-link">Home</a>
                     </li>
                     <li class="header_nav-item">
                         <a href="products.php" class="header_nav-link">All products</a>

@@ -33,7 +33,7 @@ function escape($value) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="Hu">
 
 <head>
     <meta charset="UTF-8">
